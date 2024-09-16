@@ -1,0 +1,2 @@
+# ./sad -o ../datasets/default/output/out_kokkos.bin ../datasets/default/input/reference.bin ../datasets/default/input/frame.bin 
+./sad -o ../datasets/large/output/out_kokkos.bin ../datasets/large/input/reference.bin ../datasets/large/input/frame.bin 

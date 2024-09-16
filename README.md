@@ -1,0 +1,1 @@
+Set KOKKOS_PATH to kokkos directory in each */kokkos/Makefile
