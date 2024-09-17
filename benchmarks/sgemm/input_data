@@ -1,0 +1,2 @@
+-o ../datasets/small/output/matrix_platform.txt ../datasets/small/input/matrix1.txt ../datasets/small/input/matrix2.txt ../datasets/small/input/matrix2t.txt
+-o ../datasets/medium/output/matrix_platform.txt ../datasets/medium/input/matrix1.txt ../datasets/medium/input/matrix2.txt ../datasets/medium/input/matrix2t.txt

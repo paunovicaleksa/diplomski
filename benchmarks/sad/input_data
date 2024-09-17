@@ -1,0 +1,2 @@
+-o ../datasets/default/output/platform.bin ../datasets/default/input/reference.bin ../datasets/default/input/frame.bin 
+-o ../datasets/large/output/platform.bin ../datasets/large/input/reference.bin ../datasets/large/input/frame.bin 
