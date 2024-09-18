@@ -6,7 +6,7 @@
 #include <fstream>
 #include <string>
 
-void divisor_count_and_sum(unsigned int n, unsigned int* pcount,
+inline void divisor_count_and_sum(unsigned int n, unsigned int* pcount,
                            unsigned int* psum) {
     unsigned int divisor_count = 1;
     unsigned int divisor_sum = 1;
@@ -44,67 +44,54 @@ int main(int argc, char** argv) {
     unsigned int arithmetic_count = 0;
     unsigned int composite_count = 0;
     unsigned int n = 1;
-    char *isArithmetic;
-    char *isComposite;
-    int numThreads;
     int factor = 1000;
 
 	pb_TimerSet timers;
     pb_InitializeTimerSet(&timers);
+
+    int start = 1;
     
     pb_SwitchToTimer(&timers, pb_TimerID_COMPUTE);
-
-    #pragma omp parallel shared(isArithmetic, isComposite, n, arithmetic_count, composite_count, numThreads, num, factor) 
-    {
-        #pragma omp single
-        {
-            numThreads = omp_get_num_threads();
-            isArithmetic = (char*) malloc(numThreads * factor);
-            isComposite = (char*) malloc(numThreads * factor);
-            for(int i = 0; i < numThreads * factor; i++) {
-                isArithmetic[i] = 0;
-                isComposite[i] = 0;
-            }
-        }
-        while(arithmetic_count < num) {
-            int myId = omp_get_thread_num();
-            int next_num = n + myId * factor;
-            for(int i = 0; i < factor; i++) {
-                int index = (next_num - 1) % (numThreads * factor);
-                isArithmetic[index] = 0;
-                isComposite[index] = 0;
-                unsigned int divisor_count;
-                unsigned int divisor_sum;
-                divisor_count_and_sum(next_num, &divisor_count, &divisor_sum);
-                isArithmetic[index] = (divisor_sum % divisor_count == 0);
-                isComposite[index] = isArithmetic[index] && divisor_count > 2? 1 : 0;
-                next_num = next_num + 1;
-            } 
-
-            #pragma omp barrier
-            #pragma omp single
-            {
-                for(int i = 0; i < numThreads * factor; i++) {
-                    if(isArithmetic[i]) {
-                        arithmetic_count++;
-                    }
-                    if(isComposite[i]) composite_count++;
-                    if(arithmetic_count == num + 1){
-                        n = n + i;
-                        break;
-                    }
+    while(arithmetic_count <= num) {
+        int current_arithmetic_count = 0, current_composite_count = 0;
+        #pragma omp parallel for default(none) shared(start, factor) reduction(+:current_arithmetic_count, current_composite_count)
+        for(int i = start; i < start + factor; i++) {
+            unsigned int divisor_count;
+            unsigned int divisor_sum;
+            divisor_count_and_sum(i, &divisor_count, &divisor_sum);
+            if(divisor_sum % divisor_count == 0) {
+                current_arithmetic_count++;
+                if(divisor_count > 2) {
+                    current_composite_count++;
                 }
             }
 
-            if(arithmetic_count == num + 1) break;
+        } 
 
-            #pragma omp single
-                n += numThreads * factor;
+        if(arithmetic_count + current_arithmetic_count >= num) {
+            break;
+        }
+
+        arithmetic_count += current_arithmetic_count;
+        composite_count += current_composite_count;
+
+        start += factor;    
+    }
+
+    for (n = start; arithmetic_count <= num; ++n) {
+        unsigned int divisor_count;
+        unsigned int divisor_sum;
+        divisor_count_and_sum(n, &divisor_count, &divisor_sum);
+        if (divisor_sum % divisor_count != 0)
+            continue;
+        ++arithmetic_count;
+        if (divisor_count > 2) {
+            ++composite_count;
         }
     }
 
-
     pb_SwitchToTimer(&timers, pb_TimerID_IO);
+
     std::fstream f(file_name, std::fstream::out);
     if(!f.good()) {
         std::cerr << "Cannot open file: " << file_name << std::endl;

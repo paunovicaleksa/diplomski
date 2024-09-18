@@ -58,7 +58,7 @@ int main(int argc, char** argv) {
         pb_SwitchToTimer(&timers, pb_TimerID_COMPUTE);
         while(arithmetic_count <= num) {
             int current_arithmetic_count = 0, current_composite_count = 0;
-            Kokkos::parallel_reduce("reduce_kernel", Kokkos::RangePolicy(start, start + factor * concurrency),
+            Kokkos::parallel_reduce("reduce_kernel", Kokkos::RangePolicy(start, start + factor),
                 KOKKOS_LAMBDA (int i, int& is_arithmetic, int& is_composite) {
                     unsigned int divisor_count;
                     unsigned int divisor_sum;
@@ -81,7 +81,7 @@ int main(int argc, char** argv) {
             arithmetic_count += current_arithmetic_count;
             composite_count += current_composite_count;
 
-            start += factor * concurrency;    
+            start += factor;    
         }
 
         for (n = start; arithmetic_count <= num; ++n) {

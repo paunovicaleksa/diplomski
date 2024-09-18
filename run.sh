@@ -25,7 +25,11 @@ function compile_benchmark {
             echo " "
             echo "BUILDING $platform"
             echo " "
-            make $make_clean 2> "$project_root_dir/build_error_"$benchmark"_$platform"
+            if [ -z $make_clean ]; then
+                make "KOKKOS_PATH=$KOKKOS_PATH" 2> "$project_root_dir/build_error_"$benchmark"_$platform"
+            else 
+                make "$make_clean" 2> "$project_root_dir/build_error_"$benchmark"_$platform"
+            fi
             if [ $? -ne 0 ]; then
                 echo " "
                 echo "Error builiding $benchmark/$platform, output dumped to build_error_"$benchmark"_$platform"
@@ -104,7 +108,7 @@ function test_benchmark {
 benchmark=
 compile=0
 make_clean=
-KOKKOS_PATH=
+KOKKOS_PATH=~/mups/kokkos-4.4.00
 
 project_root_dir=$(pwd)
 

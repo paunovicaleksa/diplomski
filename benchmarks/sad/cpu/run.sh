@@ -1,2 +1,0 @@
-# ./sad -o ../datasets/default/output/out_cpu.bin ../datasets/default/input/reference.bin ../datasets/default/input/frame.bin 
-./sad -o ../datasets/large/output/out_cpu.bin ../datasets/large/input/reference.bin ../datasets/large/input/frame.bin 
