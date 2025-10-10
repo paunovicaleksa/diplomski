@@ -1,0 +1,54 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-I../../../../include",
+      "-c",
+      "-o",
+      "build/file.o",
+      "file.c"
+    ],
+    "directory": "/home/aleksa/diplomski/benchmarks/stencil/src/cpu",
+    "file": "/home/aleksa/diplomski/benchmarks/stencil/src/cpu/file.c",
+    "output": "/home/aleksa/diplomski/benchmarks/stencil/src/cpu/build/file.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-I../../../../include",
+      "-c",
+      "-o",
+      "build/main.o",
+      "main.c"
+    ],
+    "directory": "/home/aleksa/diplomski/benchmarks/stencil/src/cpu",
+    "file": "/home/aleksa/diplomski/benchmarks/stencil/src/cpu/main.c",
+    "output": "/home/aleksa/diplomski/benchmarks/stencil/src/cpu/build/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-I../../../../include",
+      "-c",
+      "-o",
+      "build/parboil.o",
+      "../../../../src/parboil.c"
+    ],
+    "directory": "/home/aleksa/diplomski/benchmarks/stencil/src/cpu",
+    "file": "/home/aleksa/diplomski/src/parboil.c",
+    "output": "/home/aleksa/diplomski/benchmarks/stencil/src/cpu/build/parboil.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-I../../../../include",
+      "-c",
+      "-o",
+      "build/kernels.o",
+      "kernels.c"
+    ],
+    "directory": "/home/aleksa/diplomski/benchmarks/stencil/src/cpu",
+    "file": "/home/aleksa/diplomski/benchmarks/stencil/src/cpu/kernels.c",
+    "output": "/home/aleksa/diplomski/benchmarks/stencil/src/cpu/build/kernels.o"
+  }
+]
